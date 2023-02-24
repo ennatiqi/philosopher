@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:55:08 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/21 17:23:37 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/24 15:42:01 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ void *thread_function(void *phi)
 	t_philo *philo;
 	philo = info->philo;
 	id = info->id;
-	while(philo->death_note == 0) //(philo->time_to_die < info->last_eat_time)
+	if (id % 2 != 0)
+		usleep(100);
+	while (1)//(philo->death_note == 0) //(philo->time_to_die < info->last_eat_time)
 	{
 		ft_eat(philo,id);
 		ft_sleep(philo,id);
@@ -61,7 +63,6 @@ int main(int ac, char **av)
 	}
 	i = 0;
 
-
 	while (i < num_philo)
 	{
 		pthread_mutex_init(&philo->forks[i], NULL);
@@ -90,5 +91,4 @@ int main(int ac, char **av)
 		}
 		i++;
 	}
-	
 }
