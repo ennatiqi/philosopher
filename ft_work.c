@@ -12,26 +12,30 @@
 
 #include "ft_philo.h"
 
-void eat(philo_t *philo, int id)
+void ft_eat(t_info *philo, int id)
 {
-	pthread_mutex_lock(&philo->fork[id]);
-	pthread_mutex_lock(&philo->fork[id + 1]);
-	printf("philo %d eating\n", id);
+	unsigned long time = ft_get_time() - philo->philo->start_time;
+	pthread_mutex_lock(&philo->philo->forks[id]);
+	pthread_mutex_lock(&philo->philo->forks[(id + 1) % philo->num_philo]);
+	printf("%lums -> %d is eating\n",time, id + 1);
+	philo->last_est_time = ft_get_time();
 	usleep(1000 * philo->time_must_eat);
-	pthread_mutex_unlock(&philo->fork[id]);
-	pthread_mutex_unlock(&philo->fork[id + 1]);
+	pthread_mutex_unlock(&philo->philo->forks[id]);
+	pthread_mutex_unlock(&philo->philo->forks[(id + 1) % philo->num_philo]);
 }
 
-int think(philo_t *philo, int id)
+int ft_think(t_info *philo, int id)
 {
-	printf("philo %d thinking\n", id);
+	unsigned long time = ft_get_time() - philo->philo->start_time;
+
+	printf("%lums -> %d is thinking\n",time, id + 1);
 	//ila b9a kayfkar ta mat
-	 //usleep(1000 * philo->time_to_sleep);
-	 return 1;
+	return 1;
 }
 
-void slep(philo_t *philo, int id)
+void ft_sleep(t_info *philo, int id)
 {
-	printf("philo %d sleeping\n", id);
-	usleep(1000 * philo->time_to_sleep);
+	unsigned long time = ft_get_time() - philo->philo->start_time;
+	printf("%lums -> %d is sleeping\n",time, id + 1);
+	usleep(1000 * philo->time_must_eat);
 }

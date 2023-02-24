@@ -17,26 +17,39 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <time.h>
+# include <sys/time.h>
+ 
+struct s_philo;
 
-
-
-typedef struct ft_philo
+typedef	struct			s_info
 {
-    pthread_t       philo[200];
-    pthread_mutex_t fork[200];
-    int             id;
+	int					id;
+	int					num_philo;
+	unsigned long       last_est_time;
 
-    int             last_eat_date;
-    int             time_to_die;
-    int             time_to_eat;
-    int             time_to_sleep;
-    int             time_must_eat;
 
-}                    philo_t;
-void eat(philo_t *philo, int id);
-int think(philo_t *philo, int id);
-void slep(philo_t *philo, int id);
+
+	struct s_philo		*philo;
+	pthread_t			thread;
+}						t_info;
+
+typedef struct			s_philo
+{
+    
+	unsigned long       start_time;
+	unsigned long                 time_to_sleep;
+    unsigned long                 time_to_eat;
+    unsigned long                 time_to_die;
+    unsigned long                 time_must_eat;
+	pthread_mutex_t		*forks;
+	t_info	        	*thread_info;
+}						t_philo;
+
+void ft_eat(t_info *philo, int id);
+int ft_think(t_info *philo, int id);
+void ft_sleep(t_info *philo, int id);
+unsigned long ft_get_time(void);
+
 int	ft_atoi(char *n);
 
 
