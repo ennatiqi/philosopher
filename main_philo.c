@@ -12,14 +12,6 @@
 
 #include "ft_philo.h"
 
-unsigned long	ft_get_time(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
 void *thread_function(void *phi)
 {
 	t_info	*info;
@@ -29,28 +21,14 @@ void *thread_function(void *phi)
 	t_philo *philo;
 	philo = info->philo;
 	id = info->id;
-	while(1) //aywgaf ila chiwa7d mat //awla sala time //
+	while(philo->death_note == 0) //(philo->time_to_die < info->last_eat_time)
 	{
-		ft_eat(info,id);
-		ft_sleep(info,id);
-		ft_think(info,id);
-		//printf("%d  \n",id);
+		ft_eat(philo,id);
+		ft_sleep(philo,id);
+		ft_think(philo,id);
 	}
 	return (NULL);
 }
-
-/* void init_args(t_philo *philo,char **av)
-{
-
-	while(i < num_philo)
-	{
-		philo->thread_info.time_must_eat = (unsigned long)ft_atoi(av[2]);
-		philo->thread_info.time_to_die =  (unsigned long)ft_atoi(av[3]);
-		philo->thread_info.time_to_eat =  (unsigned long)ft_atoi(av[4]);
-		philo->thread_info.time_to_sleep =  (unsigned long)ft_atoi(av[5]);
-		i++;
-	}
-} */
 
 int main(int ac, char **av)
 {
@@ -65,11 +43,12 @@ int main(int ac, char **av)
 	num_philo = ft_atoi(av[1]);
 	
 	philo = malloc(sizeof(t_philo));
-	philo->thread_info[i].num_philo = num_philo;
-	philo->thread_info[i].time_must_eat = (unsigned long)ft_atoi(av[2]);
-	philo->thread_info[i].time_to_die =  (unsigned long)ft_atoi(av[3]);
-	philo->thread_info[i].time_to_eat =  (unsigned long)ft_atoi(av[4]);
-	philo->thread_info[i].time_to_sleep =  (unsigned long)ft_atoi(av[5]);
+	philo->num_philo = num_philo;
+	philo->time_must_eat = (unsigned long)ft_atoi(av[2]);
+	philo->time_to_die =  (unsigned long)ft_atoi(av[3]);
+	philo->time_to_eat =  (unsigned long)ft_atoi(av[4]);
+	philo->time_to_sleep =  (unsigned long)ft_atoi(av[5]);
+	philo->death_note = 0;
 		
 	int i = 0;
 	philo->start_time = ft_get_time();
@@ -111,10 +90,5 @@ int main(int ac, char **av)
 		}
 		i++;
 	}
-	i = 0;
-	 while (i < num_philo)
-	{
-		pthread_mutex_destroy(&philo->forks[i] );
-		i++;
-	}    
+	
 }

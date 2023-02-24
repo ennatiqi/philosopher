@@ -24,8 +24,8 @@ struct s_philo;
 typedef	struct			s_info
 {
 	int					id;
-	int					num_philo;
-	unsigned long       last_est_time;
+	
+	unsigned long       last_eat_time;
 
 
 
@@ -35,22 +35,25 @@ typedef	struct			s_info
 
 typedef struct			s_philo
 {
-    
+    int					num_philo;
 	unsigned long       start_time;
-	unsigned long                 time_to_sleep;
-    unsigned long                 time_to_eat;
-    unsigned long                 time_to_die;
-    unsigned long                 time_must_eat;
+	unsigned long       time_to_sleep;
+    unsigned long       time_to_eat;
+    unsigned long       time_to_die;
+    unsigned long       time_must_eat;
+
+	int					death_note;
 	pthread_mutex_t		*forks;
 	t_info	        	*thread_info;
 }						t_philo;
 
-void ft_eat(t_info *philo, int id);
-int ft_think(t_info *philo, int id);
-void ft_sleep(t_info *philo, int id);
+void ft_eat(t_philo *philo, int id);
+int ft_think(t_philo *philo, int id);
+void ft_sleep(t_philo *philo, int id);
 unsigned long ft_get_time(void);
 
 int	ft_atoi(char *n);
+void died(t_philo *philo);
 
 
 #endif
