@@ -6,19 +6,28 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:50:56 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/24 15:38:36 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/25 14:43:41 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
+
 void test_death(t_philo *philo, int id)
 {
+	unsigned long time;
+
 	if (philo->time_to_die < philo->thread_info[id].last_eat_time)
 	{
-		printf("%d is death\n", id + 1);
-		died(philo);
+		time = ft_get_time() - philo->start_time;
+		printf("%lums %d is death\n", time, id + 1);
+		des_mutex(philo);
 		exit(0);
 		//philo->death_note = 1;
+	}
+	if (philo->thread_info[id].eat_times == philo->num_philo)
+	{
+		des_mutex(philo);
+		exit(0);
 	}
 }
 
@@ -45,7 +54,7 @@ int ft_think(t_philo *philo, int id)
 
 	time = ft_get_time() - philo->start_time;
 	printf("%lums %d is thinking\n",time, id + 1);
-	//test_death(philo,id);
+	test_death(philo,id);
 	return 1;
 }
 
@@ -62,14 +71,4 @@ unsigned long	ft_get_time(void)
 
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void died(t_philo *philo)
-{
-	int i = 0;
-	 while (i < philo->num_philo)
-	{
-		pthread_mutex_destroy(&philo->forks[i] );
-		i++;
-	}    
 }

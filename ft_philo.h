@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:44:28 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/21 17:15:10 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/25 14:50:39 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef	struct			s_info
 	int					id;
 	
 	unsigned long       last_eat_time;
-
+	int					eat_times;
 
 
 	struct s_philo		*philo;
@@ -50,10 +50,13 @@ typedef struct			s_philo
 void ft_eat(t_philo *philo, int id);
 int ft_think(t_philo *philo, int id);
 void ft_sleep(t_philo *philo, int id);
+t_philo *init_args(char **av);
+void	thread_info_init_fork(t_philo *philo);
 unsigned long ft_get_time(void);
-
+void *thread_function(void *phi);
 int	ft_atoi(char *n);
-void died(t_philo *philo);
+void des_mutex(t_philo *philo);
+int check_args(char **av, int ac);
 
 
 #endif
