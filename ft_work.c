@@ -16,15 +16,15 @@ void test_death(t_philo *philo, int id)
 {
 	unsigned long time;
 
-	if (philo->time_to_die < philo->thread_info[id].last_eat_time)
+	time = ft_get_time() - philo->thread_info[id].last_eat_time;
+	if ((unsigned long)philo->time_to_die < time)
 	{
 		time = ft_get_time() - philo->start_time;
-		printf("%lums %d is death\n", time, id + 1);
+		printf("%lums %d died\n", time, id + 1);
 		des_mutex(philo);
 		exit(0);
-		//philo->death_note = 1;
 	}
-	if (philo->thread_info[id].eat_times == philo->num_philo)
+	if (philo->eat_times == philo->time_must_eat)
 	{
 		des_mutex(philo);
 		exit(0);
@@ -37,13 +37,14 @@ void ft_eat(t_philo *philo, int id)
 
 	pthread_mutex_lock(&philo->forks[id]);
 	time = ft_get_time() - philo->start_time;
-	printf("%lums %d taking a right fork\n",time, id + 1);
+	printf("%lums %d has taken a fork\n",time, id + 1);
 	pthread_mutex_lock(&philo->forks[(id + 1) % philo->num_philo]);
 	time = ft_get_time() - philo->start_time;
-	printf("%lums %d taking a left fork\n",time, id + 1);
+	printf("%lums %d has taken a fork\n",time, id + 1);
 	printf("%lums %d is eating\n",time, id + 1);
-	usleep(1000 * philo->time_must_eat);
-	philo->thread_info[id].last_eat_time = ft_get_time() - philo->start_time;
+	usleep(1000 * philo->time_to_eat);
+	philo->thread_info[id].last_eat_time = ft_get_time();
+	philo->eat_times++;
 	pthread_mutex_unlock(&philo->forks[id]);
 	pthread_mutex_unlock(&philo->forks[(id + 1) % philo->num_philo]);
 }

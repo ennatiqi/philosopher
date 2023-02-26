@@ -12,6 +12,11 @@
 
 #include "ft_philo.h"
 
+int	is_neg(int i)
+{
+	return (i <= 0);
+}
+
 t_philo *init_args(char **av)
 {
 	int num_philo;
@@ -21,12 +26,20 @@ t_philo *init_args(char **av)
 	
 	philo = malloc(sizeof(t_philo));
 	philo->num_philo = num_philo;
-	philo->time_to_die = (unsigned long)ft_atoi(av[2]);
-	philo->time_to_eat =  (unsigned long)ft_atoi(av[3]);
-	philo->time_to_sleep =  (unsigned long)ft_atoi(av[4]);
-	philo->time_must_eat =  (unsigned long)ft_atoi(av[5]);
+	philo->time_to_die = ft_atoi(av[2]);
+	philo->time_to_eat =  ft_atoi(av[3]);
+	philo->time_to_sleep =  ft_atoi(av[4]);
+	if (av[5])
+	{
+		philo->time_must_eat =  ft_atoi(av[5]);
+	}
+	else
+		philo->time_must_eat =  -1;
 	philo->death_note = 0;
+	philo->eat_times = 0;
 	philo->start_time = ft_get_time();
+    if (check_negativ(philo, av))
+		exit(1);
 	return (philo);
 }
 
@@ -40,7 +53,8 @@ void	thread_info_init_fork(t_philo *philo)
 	while(i < philo->num_philo)
 	{
 		philo->thread_info[i].philo = philo;
-		philo->thread_info[i].eat_times = 0;
+
+		philo->thread_info[i].last_eat_time = 0;
 		i++;
 	}
 	i = 0;

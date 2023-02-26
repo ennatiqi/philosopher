@@ -17,8 +17,8 @@ int main(int ac, char **av)
 	int i;
 	t_philo *philo; 
 
-	if (ac != 6)
-		return 1;
+	/* if (ac != 6 )
+		return 1; */
 	if (check_args(av, ac))
 		return 1;
 	philo = init_args(av);
