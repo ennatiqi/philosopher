@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:45:00 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/25 15:18:56 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/26 13:19:25 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ int	is_digit(char c)
 	return (0);
 }
 
-int check_args(char **av, int ac)
+int	check_args(char **av, int ac)
 {
-    int	i;
+	int	i;
 	int	j;
 
 	i = 0;
 	while (++i < ac)
 	{
 		j = 0;
-		while ((av[i][j] == ' '|| av[i][j] == '\t' || av[i][j] == '\v'
-        || av[i][j] == '\n' || av[i][j] == '\f' || av[i][j] == '\r'))
+		while ((av[i][j] == ' ' || av[i][j] == '\t' || av[i][j] == '\v'
+			|| av[i][j] == '\n' || av[i][j] == '\f' || av[i][j] == '\r'))
 			j++;
 		if (av[i][j] == '+' || av[i][j] == '-')
 			j++;
@@ -43,13 +43,13 @@ int check_args(char **av, int ac)
 	return (0);
 }
 
-int check_negativ(t_philo *philo, char **av)
+int	check_negativ(t_philo *philo, char **av)
 {
-    if (philo->num_philo < 0 || philo->time_to_die < 0 || philo->time_to_eat < 0 
-            || philo->time_to_sleep < 0)
+	if (philo->num_philo < 0 || philo->time_to_die < 0 || philo->time_to_eat < 0
+		|| philo->time_to_sleep < 0)
 		exit(1);
-    if (av[5])
-        if (philo->time_must_eat < 0)
-		exit(1);
-    return 0;
+	if (av[5])
+		if (philo->time_must_eat < 0)
+			exit(1);
+	return (0);
 }
