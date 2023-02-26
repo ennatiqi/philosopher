@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:55:08 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 13:52:33 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/26 15:34:07 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ int	main(int ac, char **av)
 			return (1);
 		}
 		i++;
+	}
+	while (1)
+	{
+		test_death(philo, philo->thread_info[i].id);
+		i++;
+		if (i > philo->num_philo)
+			i = 0;
 	}
 	join_threads(philo);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:44:28 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 13:53:39 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/26 15:29:29 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void			*thread_function(void *phi);
 int				ft_atoi(char *n);
 void			des_mutex(t_philo *philo);
 int				check_args(char **av, int ac);
+void	test_death(t_philo *philo, int id);
 void			join_threads(t_philo	*philo);
 
 #endif

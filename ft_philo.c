@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:49:05 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 13:35:25 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/26 15:04:25 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ void	*thread_function(void *phi)
 	info = (t_info *)phi;
 	philo = info->philo;
 	id = info->id;
+	if (philo->num_philo == 1)
+	{
+		printf("0ms %d died\n", id + 1);
+		des_mutex(philo);
+		exit(0);
+	}
 	if (id % 2 != 0)
 		usleep(100);
 	while (1)
