@@ -31,8 +31,6 @@ t_philo	*init_args(char **av)
 		philo->time_must_eat = -1;
 	philo->death_note = 0;
 	philo->start_time = ft_get_time();
-	if (check_negativ(philo, av))
-		exit(1);
 	return (philo);
 }
 
@@ -69,4 +67,5 @@ void	des_mutex(t_philo *philo)
 		pthread_mutex_destroy(&philo->forks[i]);
 		i++;
 	}
+	ft_free_pro(philo, philo->forks, philo->thread_info);
 }

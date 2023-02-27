@@ -18,10 +18,21 @@ int	main(int ac, char **av)
 	t_philo	*philo;
 
 	if (ac != 6 && ac != 5)
+	{
+		ft_error("try to put 4 ot 5 args");
 		return (1);
+	}
 	if (check_args(av, ac))
+	{
+		ft_error("your args mast be integers");
 		return (1);
+	}
 	philo = init_args(av);
+	if (check_negativ(philo, av))
+	{
+		ft_error("your args mast be positive");
+		return (1);
+	}
 	thread_info_init_fork(philo);
 	i = 0;
 	while (i < philo->num_philo)
@@ -29,14 +40,16 @@ int	main(int ac, char **av)
 		if (pthread_create(&philo->thread_info[i].thread, NULL,
 				thread_function, &philo->thread_info[i]) != 0)
 		{
-			perror("Thread creation failed");
+			ft_error("Thread creation failed");
 			return (1);
 		}
+		usleep(100);
 		i++;
 	}
-	while (1)
+	while (philo->death_note == 0)
 	{
-		test_death(philo, philo->thread_info[i].id);
+		if (test_death(philo, philo->thread_info[i].id) == 1)
+			return (0);
 		i++;
 		if (i > philo->num_philo)
 			i = 0;

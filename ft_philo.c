@@ -23,13 +23,11 @@ void	*thread_function(void *phi)
 	id = info->id;
 	if (philo->num_philo == 1)
 	{
-		printf("0ms %d died\n", id + 1);
+		printf("0 %d died\n", id + 1);
 		des_mutex(philo);
-		exit(0);
+		return(0);
 	}
-	if (id % 2 != 0)
-		usleep(100);
-	while (1)
+	while (1)// == 0)
 	{
 		ft_eat(philo, id);
 		ft_sleep(philo, id);
@@ -47,8 +45,8 @@ void	join_threads(t_philo	*philo)
 	{
 		if (pthread_join((philo->thread_info[i].thread), NULL) != 0)
 		{
-			perror("Thread creation failed");
-			exit (1);
+			ft_error("Thread join failed");
+			return ;
 		}
 		i++;
 	}

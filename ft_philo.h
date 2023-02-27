@@ -54,7 +54,10 @@ void			*thread_function(void *phi);
 int				ft_atoi(char *n);
 void			des_mutex(t_philo *philo);
 int				check_args(char **av, int ac);
-void	test_death(t_philo *philo, int id);
+int				test_death(t_philo *philo, int id);
 void			join_threads(t_philo	*philo);
+void			ft_error(char *msg);
+void			ft_free_pro(t_philo *philo, pthread_mutex_t	*forks, t_info	*thread_info);
+void			ft_putstr_fd(char *msg, int fd);
 
 #endif

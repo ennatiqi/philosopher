@@ -1,7 +1,7 @@
 CFLAGS = -Wall -Werror -Wextra
 NAME = philo
 RM = rm -rf
-SRC = ft_atoi.c ft_work.c main_philo.c ft_philo_init.c ft_philo.c check_args.c
+SRC = ft_atoi.c ft_work.c main_philo.c ft_philo_init.c ft_philo.c check_args.c ft_end_life.c
 OBJ = $(SRC:.c=.o)
 
 $(NAME): $(OBJ)

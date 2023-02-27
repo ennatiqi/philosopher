@@ -47,9 +47,9 @@ int	check_negativ(t_philo *philo, char **av)
 {
 	if (philo->num_philo < 0 || philo->time_to_die < 0 || philo->time_to_eat < 0
 		|| philo->time_to_sleep < 0)
-		exit(1);
+		return(1);
 	if (av[5])
 		if (philo->time_must_eat < 0)
-			exit(1);
+			return(1);
 	return (0);
 }
