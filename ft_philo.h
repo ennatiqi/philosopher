@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:44:28 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 15:29:29 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:35:58 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ int				check_args(char **av, int ac);
 int				test_death(t_philo *philo, int id);
 void			join_threads(t_philo	*philo);
 void			ft_error(char *msg);
-void			ft_free_pro(t_philo *philo, pthread_mutex_t	*forks, t_info	*thread_info);
+void			ft_free_pro(t_philo *philo, pthread_mutex_t	*forks,
+					t_info	*thread_info);
 void			ft_putstr_fd(char *msg, int fd);
+t_philo			*first_step(char **av, int ac);
+void			nano_sleep(int time_to_sleep);
 
 #endif

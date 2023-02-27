@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:45:00 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 15:02:07 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:37:21 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,30 @@ int	check_negativ(t_philo *philo, char **av)
 {
 	if (philo->num_philo < 0 || philo->time_to_die < 0 || philo->time_to_eat < 0
 		|| philo->time_to_sleep < 0)
-		return(1);
+		return (1);
 	if (av[5])
 		if (philo->time_must_eat < 0)
-			return(1);
+			return (1);
 	return (0);
+}
+
+t_philo	*first_step(char **av, int ac)
+{
+	t_philo	*philo;
+
+	if (check_args(av, ac))
+	{
+		ft_error("your args mast be integers");
+		return (NULL);
+	}
+	philo = init_args(av);
+	if (check_negativ(philo, av))
+	{
+		if (philo)
+			free(philo);
+		ft_error("your args mast be positive");
+		return (NULL);
+	}
+	thread_info_init_fork(philo);
+	return (philo);
 }

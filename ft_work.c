@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:50:56 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 15:34:33 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/27 14:46:09 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	ft_eat(t_philo *philo, int id)
 	time = ft_get_time() - philo->start_time;
 	printf("%lu %d has taken a fork\n", time, id + 1);
 	printf("%lu %d is eating\n", time, id + 1);
-	usleep(1000 * philo->time_to_eat);
 	philo->thread_info[id].last_eat_time = ft_get_time();
+	nano_sleep(philo->time_to_eat);
 	philo->thread_info[id].eat_times++;
 	pthread_mutex_unlock(&philo->forks[id]);
 	pthread_mutex_unlock(&philo->forks[(id + 1) % philo->num_philo]);
@@ -69,7 +69,7 @@ void	ft_sleep(t_philo *philo, int id)
 
 	time = ft_get_time() - philo->start_time;
 	printf("%lu %d is sleeping\n", time, id + 1);
-	usleep(1000 * philo->time_to_sleep);
+	nano_sleep(philo->time_to_sleep);
 }
 
 unsigned long	ft_get_time(void)
