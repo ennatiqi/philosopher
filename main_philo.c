@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:55:08 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/27 14:53:27 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:05:27 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@ int	generate_thread(t_philo	*philo)
 	i = 0;
 	while (i < philo->num_philo)
 	{
+		if (i % 2 == 0)
+			usleep(100);
 		if (pthread_create(&philo->thread_info[i].thread, NULL,
 				thread_function, &philo->thread_info[i]) != 0)
 		{
 			ft_error("Thread creation failed");
 			return (1);
 		}
-		usleep(100);
 		i++;
 	}
 	return (0);
