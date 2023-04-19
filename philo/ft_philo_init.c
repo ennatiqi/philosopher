@@ -55,6 +55,8 @@ void	thread_info_init_fork(t_philo *philo)
 		philo->thread_info[i].id = i;
 		i++;
 	}
+	pthread_mutex_init(&philo->koka, NULL);
+	pthread_mutex_init(&philo->print, NULL);
 }
 
 void	des_mutex(t_philo *philo)

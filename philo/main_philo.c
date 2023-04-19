@@ -19,8 +19,6 @@ int	generate_thread(t_philo	*philo)
 	i = 0;
 	while (i < philo->num_philo)
 	{
-		if (i % 2 == 0)
-			usleep(100);
 		if (pthread_create(&philo->thread_info[i].thread, NULL,
 				thread_function, &philo->thread_info[i]) != 0)
 		{
@@ -32,18 +30,49 @@ int	generate_thread(t_philo	*philo)
 	return (0);
 }
 
+int death_note(t_philo	*philo)
+{
+	size_t	time;
+	int i = 0;
+
+	while(i < philo->num_philo)
+	{
+		pthread_mutex_lock(&philo->koka);
+		time = ft_get_time() - philo->start_time - philo->thread_info[i].last_eat_time;
+		pthread_mutex_unlock(&philo->koka);
+		if ((size_t)philo->time_to_die < time)
+		{
+			print_pro(philo, i + 1, "died");
+			des_mutex(philo);
+			return (1);
+		}
+		i++;
+	}
+	i = 0;
+	if (philo->time_must_eat != -1)
+	{
+		while (i < philo->num_philo)
+		{
+			if (philo->thread_info[i].eat_times < philo->time_must_eat)
+				break ;
+			i++;
+		}
+		if (i == philo->num_philo)
+		{
+			des_mutex(philo);
+		}
+	}
+	return 0;
+}
+
+
+
 int	death(t_philo	*philo)
 {
-	int		i;
-
-	i = 0;
-	while (philo->death_note == 0)
+	while (1)
 	{
-		if (test_death(philo, philo->thread_info[i].id) == 1)
-			return (1);
-		i++;
-		if (i > philo->num_philo)
-			i = 0;
+		if (death_note(philo))
+		 	break ;
 	}
 	return (0);
 }
@@ -67,6 +96,5 @@ int	main(int ac, char **av)
 	}
 	if (death(philo))
 		return (0);
-	join_threads(philo);
 	return (0);
 }

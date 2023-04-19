@@ -21,6 +21,8 @@ void	*thread_function(void *phi)
 	info = (t_info *)phi;
 	philo = info->philo;
 	id = info->id;
+	if (id % 2 != 0)
+		usleep(100);
 	while (1)
 	{
 		ft_think(philo, id);
@@ -48,9 +50,9 @@ void	join_threads(t_philo	*philo)
 
 void	nano_sleep(int time_to_sleep)
 {
-	unsigned long	time;
+	size_t	time;
 
 	time = ft_get_time();
-	while (ft_get_time() - time < (unsigned long)time_to_sleep)
+	while (ft_get_time() - time < (size_t)time_to_sleep)
 		usleep(100);
 }
