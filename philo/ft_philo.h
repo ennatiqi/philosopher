@@ -38,7 +38,6 @@ typedef struct s_philo
 	int				time_to_eat;
 	int				time_to_die;
 	int				time_must_eat;
-	int				death_note;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	koka;
 	pthread_mutex_t	print;

@@ -29,7 +29,6 @@ t_philo	*init_args(char **av)
 	}
 	else
 		philo->time_must_eat = -1;
-	philo->death_note = 0;
 	philo->start_time = ft_get_time();
 	return (philo);
 }
@@ -46,13 +45,13 @@ void	thread_info_init_fork(t_philo *philo)
 		philo->thread_info[i].philo = philo;
 		philo->thread_info[i].eat_times = 0;
 		philo->thread_info[i].last_eat_time = 0;
+		philo->thread_info[i].id = i;
 		i++;
 	}
 	i = 0;
 	while (i < philo->num_philo)
 	{
 		pthread_mutex_init(&philo->forks[i], NULL);
-		philo->thread_info[i].id = i;
 		i++;
 	}
 	pthread_mutex_init(&philo->koka, NULL);

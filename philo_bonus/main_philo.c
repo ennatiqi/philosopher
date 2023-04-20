@@ -1,20 +1,22 @@
 #include "ft_philo.h"
 
-int death_note(t_philo	*philo, int id)
+void death_note(t_philo	*philo, int id)
 {
 	size_t	time;
 	int i = 0;
 
-		sem_wait(&philo->koka);
-		time = ft_get_time() - philo->start_time - philo->thread_info[id].last_eat_time;
-		sem_post(&philo->koka);
+	while(i < philo->num_philo)
+	{
+		sem_wait(philo->koka);
+		time = ft_get_time() - philo->start_time - philo->thread_info[i].last_eat_time;
+		sem_post(philo->koka);
 		if ((size_t)philo->time_to_die < time)
 		{
-			print_pro(philo, id + 1, "died");
-			des_mutex(philo);
-			return (1);
+			print_pro(philo, i + 1, "died");
+			exit (1);
 		}
 		i++;
+	}
 	i = 0;
 	if (philo->time_must_eat != -1)
 	{
@@ -27,9 +29,9 @@ int death_note(t_philo	*philo, int id)
 		if (i == philo->num_philo)
 		{
 			des_mutex(philo);
+			exit (1);
 		}
 	}
-	return 0;
 }
 
 void creat_processes(t_philo *philo)
@@ -39,18 +41,18 @@ void creat_processes(t_philo *philo)
     int *stat;
 
     stat = malloc(sizeof(int) * philo->num_philo);
-    philo->start_time = ft_get_time();
     while (i < philo->num_philo)
     {
         stat[i] = fork();
         if (stat[i] == 0)
         {
-            pthread_create(&philo->thread_info[i].thread, NULL, &thread_function, &philo->thread_info[i]);
+			if (pthread_create(&philo->thread_info[i].thread, NULL, &thread_function, &philo->thread_info[i]))
+			{
+				ft_error("Thread creation failed");
+				exit (1);
+			}
             while (1)
-            {
-                if (death_note(philo, i))
-                    break ;
-            }
+            	death_note(philo, i);
             exit (1);
         }
 		usleep(100);
@@ -67,9 +69,10 @@ void creat_processes(t_philo *philo)
 			i = 0;
 			while (i < philo->num_philo)
    			{
-				kill(stat[i], SIGTERM);
+				kill(stat[i], SIGKILL);
 				i++;
 			}
+			des_mutex(philo);
 			return ;
 		}
         i++;
@@ -79,13 +82,16 @@ void creat_processes(t_philo *philo)
 int	main(int ac, char **av)
 {
 	t_philo	*philo;
-    int i = 0;
 
+	if (ac != 6 && ac != 5)
+	{
+		ft_error("try to put 4 ot 5 args");
+		return (1);
+	}
 	philo = first_step(av, ac);
 	if (!philo)
 		return (1);
     creat_processes(philo);
-    // kill_processes();
     
 
 	return (0);

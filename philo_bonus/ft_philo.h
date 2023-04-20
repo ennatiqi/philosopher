@@ -31,10 +31,9 @@ typedef struct s_philo
 	int				time_to_eat;
 	int				time_to_die;
 	int				time_must_eat;
-	int				death_note;
 	sem_t			*forks;
-	sem_t	koka;
-	sem_t	print;
+	sem_t	*koka;
+	sem_t	*print;
 
 	t_info			*thread_info;
 }					t_philo;
@@ -53,8 +52,7 @@ int				check_args(char **av, int ac);
 int				test_death(t_philo *philo, int id);
 void			join_threads(t_philo	*philo);
 void			ft_error(char *msg);
-void			ft_free_pro(t_philo *philo, sem_t	*forks,
-					t_info	*thread_info);
+void			ft_free_pro(t_philo *philo, t_info	*thread_info);
 void			ft_putstr_fd(char *msg, int fd);
 t_philo			*first_step(char **av, int ac);
 void			nano_sleep(int time_to_sleep);
