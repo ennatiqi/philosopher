@@ -50,33 +50,19 @@ void	thread_info_init_fork(t_philo *philo)
 	sem_unlink("forks");
 	sem_unlink("koka");
 	sem_unlink("print");
-		philo->forks = sem_open("forks", O_CREAT | O_EXCL, 0644, philo->num_philo);
-
+	philo->forks = sem_open("forks", O_CREAT | O_EXCL, 0644, philo->num_philo);
 	philo->koka = sem_open("koka", O_CREAT | O_EXCL, 0644, 1);
-
-		philo->print = sem_open("print", O_CREAT | O_EXCL, 0644, 1);
-
+	philo->print = sem_open("print", O_CREAT | O_EXCL, 0644, 1);
 }
 
 void	des_mutex(t_philo *philo)
 {
-	// int	i;
-
-	// i = 0;
-	// while (i < philo->num_philo)
-	// {
-		sem_close(philo->forks);
-		// if (sem_unlink("/philo_bonus") == -1) {
-		// 	perror("sem_unlink() failed");
-		// 	exit(1);
-		// }
-	// 	i++;
-	// }
+	sem_close(philo->forks);
+	sem_unlink("/forks");
 	sem_close(philo->koka);
+	sem_unlink("/koka");
 	sem_close(philo->print);
-    // if (sem_unlink("/philo_bonus") == -1) {
-    //     perror("sem_unlink() failed");
-    //     exit(1);
-    // }
+	sem_unlink("/print");
+
 	ft_free_pro(philo, philo->thread_info);
 }
