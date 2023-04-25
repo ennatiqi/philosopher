@@ -21,7 +21,7 @@ void	*thread_function(void *phi)
 	info = (t_info *)phi;
 	philo = info->philo;
 	id = info->id;
-	if (id % 2 == 0)
+	if (id % 2 != 0)
 		usleep(100);
 	while (1)
 	{

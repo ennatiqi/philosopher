@@ -1,4 +1,4 @@
-CFLAGS = #-Wall -Werror -Wextra #-fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra #-fsanitize=thread
 NAME = philo_bonus
 RM = rm -rf
 SRC = ft_atoi.c ft_work.c main_philo.c ft_philo_init.c ft_philo.c check_args.c ft_end_life.c

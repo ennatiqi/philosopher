@@ -13,21 +13,13 @@ void death_note(t_philo	*philo, int id)
 		print_pro(philo, id + 1, "died");
 		exit (1);
 	}
-	// i = 0;
-	// if (philo->time_must_eat != -1)
-	// {
-	// 	while (i < philo->num_philo)
-	// 	{
-	// 		if (philo->thread_info[i].eat_times < philo->time_must_eat)
-	// 			break ;
-	// 		i++;
-	// 	}
-	// 	if (i == philo->num_philo)
-	// 	{
-	// 		des_mutex(philo);
-	// 		exit (1);
-	// 	}
-	// }
+	if (philo->time_must_eat != -1)
+	{
+		if (philo->thread_info[id].eat_times >= philo->time_must_eat)
+		{
+			exit (0);
+		}
+	}
 }
 
 void creat_processes(t_philo *philo)
@@ -59,6 +51,8 @@ void creat_processes(t_philo *philo)
         waitpid(stat[i], &status, 0);
 		if(WIFEXITED(status))
 				status = WEXITSTATUS(status);
+		if (status == 0)
+			i++;
         if (status == 1)
 		{
 			i = 0;
@@ -72,6 +66,8 @@ void creat_processes(t_philo *philo)
 		}
         i++;
     }
+	des_mutex(philo);
+	return ;
 }
 
 int	main(int ac, char **av)

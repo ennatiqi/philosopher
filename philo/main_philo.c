@@ -60,6 +60,7 @@ int death_note(t_philo	*philo)
 		if (i == philo->num_philo)
 		{
 			des_mutex(philo);
+			return (1);
 		}
 	}
 	return 0;
