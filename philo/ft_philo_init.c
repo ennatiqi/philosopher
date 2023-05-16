@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:34:37 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 14:35:05 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/16 08:58:44 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ void	des_mutex(t_philo *philo)
 	while (i < philo->num_philo)
 	{
 		pthread_mutex_destroy(&philo->forks[i]);
+		i++;
+	}
+	i = 0;
+	while (i < philo->num_philo)
+	{
+		pthread_detach(philo->thread_info[i].thread);
 		i++;
 	}
 	ft_free_pro(philo, philo->forks, philo->thread_info);

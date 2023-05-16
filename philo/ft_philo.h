@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:44:28 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/27 14:35:58 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/16 11:50:26 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ typedef struct s_philo
 	int				time_to_eat;
 	int				time_to_die;
 	int				time_must_eat;
+
+	int stop;
+
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	koka;
 	pthread_mutex_t	print;

@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:55:08 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/27 15:05:27 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/16 12:04:38 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	generate_thread(t_philo	*philo)
 	i = 0;
 	while (i < philo->num_philo)
 	{
+		if (i % 2 != 0)
+			usleep(100);
 		if (pthread_create(&philo->thread_info[i].thread, NULL,
 				thread_function, &philo->thread_info[i]) != 0)
 		{
@@ -42,7 +44,9 @@ int death_note(t_philo	*philo)
 		pthread_mutex_unlock(&philo->koka);
 		if ((size_t)philo->time_to_die < time)
 		{
-			print_pro(philo, i + 1, "died");
+			philo->stop = 1;
+			pthread_mutex_lock(&philo->print);
+			printf("%lu %d died\n",ft_get_time() - philo->start_time , i + 1);
 			des_mutex(philo);
 			return (1);
 		}
@@ -90,6 +94,7 @@ int	main(int ac, char **av)
 	philo = first_step(av, ac);
 	if (!philo)
 		return (1);
+	philo->stop = 0;
 	if (generate_thread(philo))
 	{
 		ft_error("Thread creation failed");
@@ -97,5 +102,6 @@ int	main(int ac, char **av)
 	}
 	if (death(philo))
 		return (0);
+	//free_philo(philo);
 	return (0);
 }

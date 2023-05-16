@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:50:56 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/27 14:46:09 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/16 08:57:32 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void print_pro(t_philo *philo,int id, char *str)
 void	ft_eat(t_philo *philo, int id)
 {
 	pthread_mutex_lock(&philo->forks[id]);
-	print_pro(philo,id + 1, "has taken a fork");
+	print_pro(philo, id + 1, "has taken a fork");
 	pthread_mutex_lock(&philo->forks[(id + 1) % philo->num_philo]);
-	print_pro(philo,id + 1, "has taken a fork");
-	print_pro(philo,id + 1, "is eating");
+	print_pro(philo, id + 1, "has taken a fork");
+	print_pro(philo, id + 1, "is eating");
 	pthread_mutex_lock(&philo->koka);
 	philo->thread_info[id].last_eat_time = ft_get_time() - philo->start_time;
 	pthread_mutex_unlock(&philo->koka);
@@ -37,7 +37,7 @@ void	ft_eat(t_philo *philo, int id)
 
 int	ft_think(t_philo *philo, int id)
 {
-	print_pro(philo,id + 1, "is thinking");
+	print_pro(philo, id + 1, "is thinking");
 	return (1);
 }
 

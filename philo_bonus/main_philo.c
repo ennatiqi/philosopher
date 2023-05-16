@@ -1,71 +1,84 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_philo.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/16 12:07:38 by rennatiq          #+#    #+#             */
+/*   Updated: 2023/05/16 12:20:44 by rennatiq         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_philo.h"
 
 void death_note(t_philo	*philo, int id)
 {
 	size_t	time;
-	// int 	i;
 
-	sem_wait(philo->koka);
-	time = ft_get_time() - philo->start_time - philo->thread_info[id].last_eat_time;
-	sem_post(philo->koka);
-	if ((size_t)philo->time_to_die < time)
+	while (1)
 	{
-		print_pro(philo, id + 1, "died");
-		exit (1);
-	}
-	if (philo->time_must_eat != -1)
-	{
-		if (philo->thread_info[id].eat_times >= philo->time_must_eat)
+		sem_wait(philo->koka);
+		time = ft_get_time() - philo->start_time - philo->thread_info[id].last_eat_time;
+		sem_post(philo->koka);
+		if ((size_t)philo->time_to_die < time)
 		{
-			exit (0);
+			sem_wait(philo->print);
+			printf("%lu %d died\n",ft_get_time() - philo->start_time , id + 1);
+			exit (1);
+		}
+		if (philo->time_must_eat != -1)
+		{
+			if (philo->thread_info[id].eat_times >= philo->time_must_eat)
+				exit (1);
 		}
 	}
 }
 
 void creat_processes(t_philo *philo)
 {
-    int i = 0;
+	int i = 0;
 	int status;
-    int *stat;
+	int *stat;
 
-    stat = malloc(sizeof(int) * philo->num_philo);
-    while (i < philo->num_philo)
-    {
-        stat[i] = fork();
-        if (stat[i] == 0)
-        {
+	stat = malloc(sizeof(int) * philo->num_philo);
+	while (i < philo->num_philo)
+	{
+		if (i % 2 == 0)
+			usleep(100);
+		stat[i] = fork();
+		if (stat[i] == 0)
+		{
 			if (pthread_create(&philo->thread_info[i].thread, NULL, &thread_function, &philo->thread_info[i]))
 			{
 				ft_error("Thread creation failed");
 				exit (1);
 			}
-            while (1)
-            	death_note(philo, i);
-        }
-			usleep(100);
-        i++;
-    }
-    i = 0;
-    while (i < philo->num_philo)
-    {
-        waitpid(stat[i], &status, 0);
+			death_note(philo, i);
+		}
+		i++;
+	}
+	i = 0;
+	while (i < philo->num_philo)
+	{
+		waitpid(stat[i], &status, 0);
 		if(WIFEXITED(status))
 				status = WEXITSTATUS(status);
 		if (status == 0)
 			i++;
-        if (status == 1)
+		if (status == 1)
 		{
 			i = 0;
 			while (i < philo->num_philo)
-   			{
+			{
 				kill(stat[i], SIGKILL);
 				i++;
 			}
 			des_mutex(philo);
 			return ;
 		}
-        i++;
-    }
+		i++;
+	}
 	des_mutex(philo);
 	return ;
 }
@@ -82,8 +95,6 @@ int	main(int ac, char **av)
 	philo = first_step(av, ac);
 	if (!philo)
 		return (1);
-    creat_processes(philo);
-    
-
+	creat_processes(philo);
 	return (0);
 }
