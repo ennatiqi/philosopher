@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:34:37 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/16 08:58:44 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:12:46 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	thread_info_init_fork(t_philo *philo)
 	}
 	pthread_mutex_init(&philo->koka, NULL);
 	pthread_mutex_init(&philo->print, NULL);
+	pthread_mutex_init(&philo->stop_thr, NULL);
 }
 
 void	des_mutex(t_philo *philo)
@@ -68,6 +69,9 @@ void	des_mutex(t_philo *philo)
 		pthread_mutex_destroy(&philo->forks[i]);
 		i++;
 	}
+	// pthread_mutex_destroy(&philo->koka);
+	// pthread_mutex_destroy(&philo->print);
+	// pthread_mutex_destroy(&philo->stop);
 	i = 0;
 	while (i < philo->num_philo)
 	{

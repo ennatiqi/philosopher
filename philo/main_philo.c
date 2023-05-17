@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:55:08 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/16 12:04:38 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:11:20 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,10 @@ int	generate_thread(t_philo	*philo)
 	return (0);
 }
 
-int death_note(t_philo	*philo)
+int	eat_times(t_philo	*philo)
 {
-	size_t	time;
-	int i = 0;
+	int	i;
 
-	while(i < philo->num_philo)
-	{
-		pthread_mutex_lock(&philo->koka);
-		time = ft_get_time() - philo->start_time - philo->thread_info[i].last_eat_time;
-		pthread_mutex_unlock(&philo->koka);
-		if ((size_t)philo->time_to_die < time)
-		{
-			philo->stop = 1;
-			pthread_mutex_lock(&philo->print);
-			printf("%lu %d died\n",ft_get_time() - philo->start_time , i + 1);
-			des_mutex(philo);
-			return (1);
-		}
-		i++;
-	}
 	i = 0;
 	if (philo->time_must_eat != -1)
 	{
@@ -67,17 +51,44 @@ int death_note(t_philo	*philo)
 			return (1);
 		}
 	}
-	return 0;
+	return (0);
 }
 
+int	death_note(t_philo	*philo)
+{
+	size_t	time;
+	int		i;
 
+	i = 0;
+	while (i < philo->num_philo)
+	{
+		pthread_mutex_lock(&philo->koka);
+		time = ft_get_time() - philo->start_time
+			- philo->thread_info[i].last_eat_time;
+		pthread_mutex_unlock(&philo->koka);
+		if ((size_t)philo->time_to_die < time)
+		{
+			pthread_mutex_lock(&philo->stop_thr);
+			philo->stop = 1;
+			pthread_mutex_unlock(&philo->stop_thr);
+			pthread_mutex_lock(&philo->print);
+			printf("%lu %d died\n", ft_get_time() - philo->start_time, i + 1);
+			des_mutex(philo);
+			return (1);
+		}
+		i++;
+	}
+	if (eat_times(philo))
+		return (1);
+	return (0);
+}
 
 int	death(t_philo	*philo)
 {
 	while (1)
 	{
 		if (death_note(philo))
-		 	break ;
+			break ;
 	}
 	return (0);
 }
@@ -102,6 +113,5 @@ int	main(int ac, char **av)
 	}
 	if (death(philo))
 		return (0);
-	//free_philo(philo);
 	return (0);
 }

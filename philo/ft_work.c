@@ -6,16 +6,16 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:50:56 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/16 08:57:32 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/17 09:51:25 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_philo.h"
 
-void print_pro(t_philo *philo,int id, char *str)
+void	print_pro(t_philo *philo, int id, char *str)
 {
 	pthread_mutex_lock(&philo->print);
-	printf("%lu %d %s\n",ft_get_time() - philo->start_time , id, str);
+	printf("%lu %d %s\n", ft_get_time() - philo->start_time, id, str);
 	pthread_mutex_unlock(&philo->print);
 }
 
@@ -43,7 +43,7 @@ int	ft_think(t_philo *philo, int id)
 
 void	ft_sleep(t_philo *philo, int id)
 {
-	print_pro(philo,id + 1, "is sleeping");
+	print_pro(philo, id + 1, "is sleeping");
 	nano_sleep(philo->time_to_sleep);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:49:05 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/16 12:04:10 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:13:43 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,13 @@ void	*thread_function(void *phi)
 	id = info->id;
 	while (1)
 	{
+		pthread_mutex_lock(&philo->stop_thr);
 		if (philo->stop)
-			break;
+		{
+			pthread_mutex_unlock(&philo->stop_thr);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->stop_thr);
 		ft_think(philo, id);
 		ft_eat(philo, id);
 		ft_sleep(philo, id);
@@ -32,7 +37,7 @@ void	*thread_function(void *phi)
 	return (NULL);
 }
 
-void	join_threads(t_philo	*philo)
+void	join_threads(t_philo *philo)
 {
 	int	i;
 

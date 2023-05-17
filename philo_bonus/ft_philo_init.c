@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:34:37 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/26 14:35:05 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/17 09:56:26 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ void	des_mutex(t_philo *philo)
 	sem_unlink("/koka");
 	sem_close(philo->print);
 	sem_unlink("/print");
-
 	ft_free_pro(philo, philo->thread_info);
 }

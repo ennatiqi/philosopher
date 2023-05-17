@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:44:28 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/16 11:50:26 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:10:59 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ struct	s_philo;
 typedef struct s_info
 {
 	int				id;
-	size_t	last_eat_time;
+	size_t			last_eat_time;
 	int				eat_times;
 	struct s_philo	*philo;
 	pthread_t		thread;
@@ -33,18 +33,16 @@ typedef struct s_info
 typedef struct s_philo
 {
 	int				num_philo;
-	size_t	start_time;
+	size_t			start_time;
 	int				time_to_sleep;
 	int				time_to_eat;
 	int				time_to_die;
 	int				time_must_eat;
-
-	int stop;
-
+	int				stop;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	koka;
 	pthread_mutex_t	print;
-
+	pthread_mutex_t	stop_thr;
 	t_info			*thread_info;
 }					t_philo;
 
@@ -59,7 +57,6 @@ void			*thread_function(void *phi);
 int				ft_atoi(char *n);
 void			des_mutex(t_philo *philo);
 int				check_args(char **av, int ac);
-int				test_death(t_philo *philo, int id);
 void			join_threads(t_philo	*philo);
 void			ft_error(char *msg);
 void			ft_free_pro(t_philo *philo, pthread_mutex_t	*forks,
@@ -67,6 +64,6 @@ void			ft_free_pro(t_philo *philo, pthread_mutex_t	*forks,
 void			ft_putstr_fd(char *msg, int fd);
 t_philo			*first_step(char **av, int ac);
 void			nano_sleep(int time_to_sleep);
-void 			print_pro(t_philo *philo,int id, char *str);
+void			print_pro(t_philo *philo, int id, char *str);
 
 #endif
