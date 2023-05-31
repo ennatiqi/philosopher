@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:34:37 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 10:12:46 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/29 09:18:58 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_philo	*init_args(char **av)
 	}
 	else
 		philo->time_must_eat = -1;
+	philo->stop = 0;
 	philo->start_time = ft_get_time();
 	return (philo);
 }
@@ -57,6 +58,7 @@ void	thread_info_init_fork(t_philo *philo)
 	pthread_mutex_init(&philo->koka, NULL);
 	pthread_mutex_init(&philo->print, NULL);
 	pthread_mutex_init(&philo->stop_thr, NULL);
+	pthread_mutex_init(&philo->eat_time, NULL);
 }
 
 void	des_mutex(t_philo *philo)
@@ -66,17 +68,18 @@ void	des_mutex(t_philo *philo)
 	i = 0;
 	while (i < philo->num_philo)
 	{
-		pthread_mutex_destroy(&philo->forks[i]);
+		pthread_join(philo->thread_info[i].thread, NULL);
 		i++;
 	}
-	// pthread_mutex_destroy(&philo->koka);
-	// pthread_mutex_destroy(&philo->print);
-	// pthread_mutex_destroy(&philo->stop);
 	i = 0;
 	while (i < philo->num_philo)
 	{
-		pthread_detach(philo->thread_info[i].thread);
+		pthread_mutex_destroy(&philo->forks[i]);
 		i++;
 	}
+	pthread_mutex_destroy(&philo->koka);
+	pthread_mutex_destroy(&philo->print);
+	pthread_mutex_destroy(&philo->stop_thr);
+	pthread_mutex_destroy(&philo->eat_time);
 	ft_free_pro(philo, philo->forks, philo->thread_info);
 }

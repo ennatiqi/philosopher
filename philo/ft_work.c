@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:50:56 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 09:51:25 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/29 09:50:50 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	print_pro(t_philo *philo, int id, char *str)
 {
+	if (stop_get(philo))
+		return ;
 	pthread_mutex_lock(&philo->print);
 	printf("%lu %d %s\n", ft_get_time() - philo->start_time, id, str);
 	pthread_mutex_unlock(&philo->print);
@@ -22,6 +24,8 @@ void	print_pro(t_philo *philo, int id, char *str)
 void	ft_eat(t_philo *philo, int id)
 {
 	pthread_mutex_lock(&philo->forks[id]);
+	if (stop_get(philo))
+		return ;
 	print_pro(philo, id + 1, "has taken a fork");
 	pthread_mutex_lock(&philo->forks[(id + 1) % philo->num_philo]);
 	print_pro(philo, id + 1, "has taken a fork");
@@ -29,8 +33,11 @@ void	ft_eat(t_philo *philo, int id)
 	pthread_mutex_lock(&philo->koka);
 	philo->thread_info[id].last_eat_time = ft_get_time() - philo->start_time;
 	pthread_mutex_unlock(&philo->koka);
-	nano_sleep(philo->time_to_eat);
+	if (!stop_get(philo))
+		nano_sleep(philo, philo->time_to_eat);
+	pthread_mutex_lock(&philo->eat_time);
 	philo->thread_info[id].eat_times++;
+	pthread_mutex_unlock(&philo->eat_time);
 	pthread_mutex_unlock(&philo->forks[id]);
 	pthread_mutex_unlock(&philo->forks[(id + 1) % philo->num_philo]);
 }
@@ -44,7 +51,8 @@ int	ft_think(t_philo *philo, int id)
 void	ft_sleep(t_philo *philo, int id)
 {
 	print_pro(philo, id + 1, "is sleeping");
-	nano_sleep(philo->time_to_sleep);
+	if (!stop_get(philo))
+		nano_sleep(philo, philo->time_to_sleep);
 }
 
 size_t	ft_get_time(void)

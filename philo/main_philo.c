@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:55:08 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 10:11:20 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/29 09:50:12 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,13 @@ int	generate_thread(t_philo	*philo)
 	return (0);
 }
 
+void	stop_set(t_philo	*philo)
+{
+	pthread_mutex_lock(&philo->stop_thr);
+	philo->stop = 1;
+	pthread_mutex_unlock(&philo->stop_thr);
+}
+
 int	eat_times(t_philo	*philo)
 {
 	int	i;
@@ -41,13 +48,18 @@ int	eat_times(t_philo	*philo)
 	{
 		while (i < philo->num_philo)
 		{
+			pthread_mutex_lock(&philo->eat_time);
 			if (philo->thread_info[i].eat_times < philo->time_must_eat)
+			{
+				pthread_mutex_unlock(&philo->eat_time);
 				break ;
+			}
+			pthread_mutex_unlock(&philo->eat_time);
 			i++;
 		}
 		if (i == philo->num_philo)
 		{
-			des_mutex(philo);
+			stop_set(philo);
 			return (1);
 		}
 	}
@@ -68,12 +80,9 @@ int	death_note(t_philo	*philo)
 		pthread_mutex_unlock(&philo->koka);
 		if ((size_t)philo->time_to_die < time)
 		{
-			pthread_mutex_lock(&philo->stop_thr);
-			philo->stop = 1;
-			pthread_mutex_unlock(&philo->stop_thr);
+			stop_set(philo);
 			pthread_mutex_lock(&philo->print);
 			printf("%lu %d died\n", ft_get_time() - philo->start_time, i + 1);
-			des_mutex(philo);
 			return (1);
 		}
 		i++;
@@ -83,14 +92,14 @@ int	death_note(t_philo	*philo)
 	return (0);
 }
 
-int	death(t_philo	*philo)
+void	death(t_philo	*philo)
 {
 	while (1)
 	{
 		if (death_note(philo))
 			break ;
 	}
-	return (0);
+	return ;
 }
 
 int	main(int ac, char **av)
@@ -105,13 +114,12 @@ int	main(int ac, char **av)
 	philo = first_step(av, ac);
 	if (!philo)
 		return (1);
-	philo->stop = 0;
 	if (generate_thread(philo))
 	{
 		ft_error("Thread creation failed");
 		return (1);
 	}
-	if (death(philo))
-		return (0);
+	death(philo);
+	des_mutex(philo);
 	return (0);
 }

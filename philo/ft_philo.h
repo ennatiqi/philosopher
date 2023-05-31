@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:44:28 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 10:10:59 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/29 09:51:04 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_philo
 	int				time_must_eat;
 	int				stop;
 	pthread_mutex_t	*forks;
+	pthread_mutex_t	eat_time;
 	pthread_mutex_t	koka;
 	pthread_mutex_t	print;
 	pthread_mutex_t	stop_thr;
@@ -63,7 +64,8 @@ void			ft_free_pro(t_philo *philo, pthread_mutex_t	*forks,
 					t_info	*thread_info);
 void			ft_putstr_fd(char *msg, int fd);
 t_philo			*first_step(char **av, int ac);
-void			nano_sleep(int time_to_sleep);
+void			nano_sleep(t_philo *philo, int time_to_sleep);
+int				stop_get(t_philo *philo);
 void			print_pro(t_philo *philo, int id, char *str);
 
 #endif

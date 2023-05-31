@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:45:00 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/16 08:51:16 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/29 09:23:50 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ t_philo	*first_step(char **av, int ac)
 		return (NULL);
 	}
 	philo = init_args(av);
+	if (av[5])
+		if (philo->time_must_eat == 0)
+			return (NULL);
 	if (check_negativ(philo, av))
 	{
 		if (philo)

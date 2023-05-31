@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 14:35:40 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/27 14:37:01 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/05/23 12:38:57 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_error(char *msg)
 }
 
 void	ft_free_pro(t_philo *philo, pthread_mutex_t *forks, t_info *thread_info)
-{
+{	
 	if (thread_info)
 		free(thread_info);
 	if (philo)
