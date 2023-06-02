@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:07:38 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 09:55:49 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:01:20 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,14 @@ void	death_note(t_philo	*philo, int id)
 			printf("%lu %d died\n", ft_get_time() - philo->start_time, id + 1);
 			exit (1);
 		}
+		sem_wait(philo->koka2);
 		if (philo->time_must_eat != -1)
 		{
+			sem_post(philo->koka2);
 			if (philo->thread_info[id].eat_times >= philo->time_must_eat)
 				exit (1);
 		}
+		sem_post(philo->koka2);
 	}
 }
 
@@ -60,7 +63,6 @@ void	kill_processes(t_philo *philo, int *stat)
 void	creat_processes(t_philo *philo)
 {
 	int	i;
-	int	status;
 	int	*stat;
 
 	i = 0;
@@ -83,6 +85,7 @@ void	creat_processes(t_philo *philo)
 		i++;
 	}
 	kill_processes(philo, stat);
+	free(stat);
 	return ;
 }
 

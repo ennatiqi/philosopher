@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:34:37 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 09:56:26 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:00:35 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,11 @@ void	thread_info_init_fork(t_philo *philo)
 	}
 	sem_unlink("forks");
 	sem_unlink("koka");
+	sem_unlink("koka2");
 	sem_unlink("print");
 	philo->forks = sem_open("forks", O_CREAT | O_EXCL, 0644, philo->num_philo);
-	philo->koka = sem_open("koka", O_CREAT | O_EXCL, 0644, 1);
+	philo->koka = sem_open("koka2", O_CREAT | O_EXCL, 0644, 1);
+	philo->koka2 = sem_open("koka", O_CREAT | O_EXCL, 0644, 1);
 	philo->print = sem_open("print", O_CREAT | O_EXCL, 0644, 1);
 }
 
@@ -61,6 +63,8 @@ void	des_mutex(t_philo *philo)
 	sem_unlink("/forks");
 	sem_close(philo->koka);
 	sem_unlink("/koka");
+	sem_close(philo->koka2);
+	sem_unlink("/koka2");
 	sem_close(philo->print);
 	sem_unlink("/print");
 	ft_free_pro(philo, philo->thread_info);

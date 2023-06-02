@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 15:42:48 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/21 16:02:02 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:25:55 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_atoi(char *n)
 {
-	int	i;
-	int	neg;
+	long	i;
+	int		neg;
 
 	i = 0;
 	neg = 1;
@@ -30,6 +30,8 @@ int	ft_atoi(char *n)
 	while (*n >= '0' && *n <= '9')
 	{
 		i = (i * 10) + (*n - '0');
+		if ((i > 2147483647 && neg == 1) || (i > 2147483648 && neg == -1))
+			return (-1);
 		n++;
 	}
 	return (i * neg);

@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:49:05 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/29 09:51:17 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:20:19 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	join_threads(t_philo *philo)
 	{
 		if (pthread_join((philo->thread_info[i].thread), NULL) != 0)
 		{
-			ft_error("Thread join failed");
 			return ;
 		}
 		i++;

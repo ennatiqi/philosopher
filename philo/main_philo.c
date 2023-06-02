@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:55:08 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/29 09:50:12 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/01 18:20:26 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	generate_thread(t_philo	*philo)
 		if (pthread_create(&philo->thread_info[i].thread, NULL,
 				thread_function, &philo->thread_info[i]) != 0)
 		{
-			ft_error("Thread creation failed");
 			return (1);
 		}
 		i++;
@@ -108,7 +107,6 @@ int	main(int ac, char **av)
 
 	if (ac != 6 && ac != 5)
 	{
-		ft_error("try to put 4 ot 5 args");
 		return (1);
 	}
 	philo = first_step(av, ac);
@@ -116,7 +114,6 @@ int	main(int ac, char **av)
 		return (1);
 	if (generate_thread(philo))
 	{
-		ft_error("Thread creation failed");
 		return (1);
 	}
 	death(philo);

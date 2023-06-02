@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:50:56 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 09:56:20 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:01:25 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ void	ft_eat(t_philo *philo, int id)
 	philo->thread_info[id].last_eat_time = ft_get_time() - philo->start_time;
 	sem_post(philo->koka);
 	nano_sleep(philo->time_to_eat);
+	sem_wait(philo->koka2);
 	philo->thread_info[id].eat_times++;
+	sem_post(philo->koka2);
 	sem_post(philo->forks);
 	sem_post(philo->forks);
 }

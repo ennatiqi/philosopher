@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:07:45 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/05/17 09:52:09 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/02 16:00:04 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ typedef struct s_philo
 	int				time_must_eat;
 	sem_t			*forks;
 	sem_t			*koka;
+	sem_t			*koka2;
 	sem_t			*print;
 
 	t_info			*thread_info;
