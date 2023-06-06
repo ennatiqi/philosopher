@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/18 14:50:56 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/06/02 16:01:25 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/06 09:53:36 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,11 @@ void	ft_eat(t_philo *philo, int id)
 	sem_wait(philo->koka2);
 	philo->thread_info[id].eat_times++;
 	sem_post(philo->koka2);
+
+	if (philo->thread_info[id].eat_times == philo->time_must_eat)
+		sem_post(philo->est_times);
+
+	
 	sem_post(philo->forks);
 	sem_post(philo->forks);
 }

@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:49:05 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/06/01 18:20:19 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/06 09:10:34 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	*thread_function(void *phi)
 	info = (t_info *)phi;
 	philo = info->philo;
 	id = info->id;
+	if (id % 2 != 0)
+		usleep(100);
 	if (philo->num_philo == 1)
 	{
 		ft_one_philo(philo);

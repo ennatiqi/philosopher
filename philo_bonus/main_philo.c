@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 12:07:38 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/06/02 16:01:20 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/06 11:15:56 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ void	death_note(t_philo	*philo, int id)
 			printf("%lu %d died\n", ft_get_time() - philo->start_time, id + 1);
 			exit (1);
 		}
-		sem_wait(philo->koka2);
-		if (philo->time_must_eat != -1)
-		{
-			sem_post(philo->koka2);
-			if (philo->thread_info[id].eat_times >= philo->time_must_eat)
-				exit (1);
-		}
-		sem_post(philo->koka2);
+		// sem_wait(philo->koka2);
+		// if (philo->time_must_eat != -1)
+		// {
+		// 	sem_post(philo->koka2);
+		// 	if (philo->thread_info[id].eat_times >= philo->time_must_eat)
+		// 		exit (1);
+		// }
+		// sem_post(philo->koka2);
 	}
 }
 
@@ -60,32 +60,58 @@ void	kill_processes(t_philo *philo, int *stat)
 	}
 }
 
+void *check_eats(void *phi)
+{
+	t_philo	*philo;
+	int i = 0;
+
+	philo = (t_philo *)phi;
+	if (philo->time_must_eat == -1)
+		return NULL;
+	while (i < philo->num_philo)
+	{
+		sem_wait(philo->est_times);
+		i++;
+	}
+	i = 0;
+	while (i < philo->num_philo)
+	{
+		kill(philo->stat[i], SIGKILL);
+		i++;
+	}
+	des_mutex(philo);
+	free(philo->stat);
+	exit(0);
+	
+}
+
 void	creat_processes(t_philo *philo)
 {
 	int	i;
-	int	*stat;
 
 	i = 0;
-	stat = malloc(sizeof(int) * philo->num_philo);
+	philo->stat = malloc(sizeof(int) * philo->num_philo);
 	while (i < philo->num_philo)
 	{
-		if (i % 2 == 0)
-			usleep(100);
-		stat[i] = fork();
-		if (stat[i] == 0)
+		philo->stat[i] = fork();
+		if (philo->stat[i] == 0)
 		{
+			if (i % 2 == 0)
+				usleep(100);
 			if (pthread_create(&philo->thread_info[i].thread, NULL,
 					&thread_function, &philo->thread_info[i]))
 			{
-				ft_error("Thread creation failed");
 				exit (1);
 			}
 			death_note(philo, i);
 		}
 		i++;
 	}
-	kill_processes(philo, stat);
-	free(stat);
+	if (pthread_create(&philo->eating, NULL,
+			&check_eats, &philo))
+		exit (1);
+	kill_processes(philo, philo->stat);
+	free(philo->stat);
 	return ;
 }
 

@@ -6,7 +6,7 @@
 /*   By: rennatiq <rennatiq@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 14:49:05 by rennatiq          #+#    #+#             */
-/*   Updated: 2023/02/27 15:04:43 by rennatiq         ###   ########.fr       */
+/*   Updated: 2023/06/06 09:52:45 by rennatiq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	*thread_function(void *phi)
 	info = (t_info *)phi;
 	philo = info->philo;
 	id = info->id;
+	if (philo->time_must_eat != -1)
+		sem_wait(philo->est_times);
 	if (id % 2 != 0)
 		usleep(100);
 	while (1)
